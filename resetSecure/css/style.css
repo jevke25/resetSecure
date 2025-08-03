@@ -13,6 +13,114 @@
     --transition: all 0.3s ease;
 }
 
+/* Background Animations */
+@keyframes gradientShift {
+    0% { background-position: 0% 50%; }
+    50% { background-position: 100% 50%; }
+    100% { background-position: 0% 50%; }
+}
+
+@keyframes float {
+    0%, 100% { transform: translateY(0px); }
+    50% { transform: translateY(-20px); }
+}
+
+@keyframes pulse {
+    0%, 100% { transform: scale(1); opacity: 0.8; }
+    50% { transform: scale(1.05); opacity: 1; }
+}
+
+@keyframes rotate {
+    from { transform: rotate(0deg); }
+    to { transform: rotate(360deg); }
+}
+
+@keyframes slideInFromLeft {
+    0% { transform: translateX(-100%); opacity: 0; }
+    100% { transform: translateX(0); opacity: 1; }
+}
+
+@keyframes slideInFromRight {
+    0% { transform: translateX(100%); opacity: 0; }
+    100% { transform: translateX(0); opacity: 1; }
+}
+
+@keyframes fadeInUp {
+    0% { transform: translateY(30px); opacity: 0; }
+    100% { transform: translateY(0); opacity: 1; }
+}
+
+@keyframes shimmer {
+    0% { background-position: -200% 0; }
+    100% { background-position: 200% 0; }
+}
+
+/* Animated Background Elements */
+.animated-bg {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    pointer-events: none;
+    z-index: -1;
+    overflow: hidden;
+}
+
+.floating-shapes {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+}
+
+.shape {
+    position: absolute;
+    border-radius: 50%;
+    background: linear-gradient(45deg, var(--primary-color), var(--accent-color));
+    opacity: 0.1;
+    animation: float 6s ease-in-out infinite;
+}
+
+.shape:nth-child(1) {
+    width: 80px;
+    height: 80px;
+    top: 10%;
+    left: 10%;
+    animation-delay: 0s;
+}
+
+.shape:nth-child(2) {
+    width: 120px;
+    height: 120px;
+    top: 20%;
+    right: 15%;
+    animation-delay: 2s;
+}
+
+.shape:nth-child(3) {
+    width: 60px;
+    height: 60px;
+    bottom: 30%;
+    left: 20%;
+    animation-delay: 4s;
+}
+
+.shape:nth-child(4) {
+    width: 100px;
+    height: 100px;
+    bottom: 20%;
+    right: 10%;
+    animation-delay: 1s;
+}
+
+.shape:nth-child(5) {
+    width: 70px;
+    height: 70px;
+    top: 50%;
+    left: 50%;
+    animation-delay: 3s;
+}
+
 * {
     margin: 0;
     padding: 0;
@@ -82,6 +190,26 @@ img {
     border: none;
     cursor: pointer;
     font-size: 1rem;
+    position: relative;
+    overflow: hidden;
+}
+
+.btn::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: -100%;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(90deg, 
+        transparent, 
+        rgba(255, 255, 255, 0.3), 
+        transparent);
+    transition: left 0.5s;
+}
+
+.btn:hover::before {
+    left: 100%;
 }
 
 .btn-primary {
@@ -207,13 +335,72 @@ img {
 
 /* Hero Section */
 .hero {
+    padding: 8rem 0 4rem;
+    margin-top: 80px; /* Account for fixed header */
+    position: relative;
+    overflow: hidden;
+    min-height: 100vh;
+    display: flex;
+    align-items: center;
+}
+
+.hero-video-background {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    z-index: 1;
+}
+
+.hero-video-background video {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    object-position: center;
+}
+
+/* Fallback background if video fails to load */
+.hero-video-background::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
     background: linear-gradient(rgba(208, 232, 242, 0.3), rgba(208, 232, 242, 0.3)), url('../assets/images/hero-illustration.jpg');
     background-size: cover;
     background-position: center;
     background-repeat: no-repeat;
-    padding: 8rem 0 4rem;
-    margin-top: 80px; /* Account for fixed header */
+    z-index: -1;
+}
+
+/* Pricing hero video background */
+.pricing-hero .hero-video-background::before {
+    background: linear-gradient(rgba(208, 232, 242, 0.3), rgba(208, 232, 242, 0.3)), url('../assets/images/hero-illustration.jpg');
+}
+
+.hero::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: linear-gradient(45deg, 
+        rgba(42, 111, 151, 0.4) 0%, 
+        rgba(58, 134, 255, 0.4) 25%, 
+        rgba(208, 232, 242, 0.4) 50%, 
+        rgba(42, 111, 151, 0.4) 75%, 
+        rgba(58, 134, 255, 0.4) 100%);
+    background-size: 400% 400%;
+    animation: gradientShift 8s ease infinite;
+    z-index: 2;
+}
+
+.hero .container {
     position: relative;
+    z-index: 3;
 }
 
 .hero .container {
@@ -231,6 +418,38 @@ img {
     box-shadow: none;
     border: none;
     animation: fadeInUp 1s ease-out;
+}
+
+.hero-pricing-link {
+    margin-top: 1.5rem;
+    animation: fadeInUp 1s ease-out 0.6s both;
+}
+
+.pricing-link {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    color: #ffffff;
+    text-decoration: none;
+    font-size: 1rem;
+    font-weight: 500;
+    transition: all 0.3s ease;
+    padding: 0.5rem 0;
+    border-bottom: 1px solid transparent;
+}
+
+.pricing-link:hover {
+    color: #ffffff;
+    border-bottom-color: #ffffff;
+    transform: translateX(5px);
+}
+
+.pricing-link .arrow-icon {
+    transition: transform 0.3s ease;
+}
+
+.pricing-link:hover .arrow-icon {
+    transform: translateX(3px);
 }
 
 @keyframes fadeInUp {
@@ -266,6 +485,30 @@ img {
 /* Services Section */
 .services {
     padding: 4rem 0;
+    position: relative;
+    overflow: hidden;
+}
+
+.services::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: 
+        radial-gradient(circle at 20% 30%, rgba(42, 111, 151, 0.05) 0%, transparent 50%),
+        radial-gradient(circle at 80% 70%, rgba(58, 134, 255, 0.05) 0%, transparent 50%),
+        url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100"><defs><pattern id="grid" width="20" height="20" patternUnits="userSpaceOnUse"><path d="M 20 0 L 0 0 0 20" fill="none" stroke="%23d0e8f2" stroke-width="0.5" opacity="0.3"/></pattern></defs><rect width="100" height="100" fill="url(%23grid)"/></svg>');
+    background-size: 100% 100%, 100% 100%, 50px 50px;
+    animation: float 15s ease-in-out infinite;
+    pointer-events: none;
+    z-index: 1;
+}
+
+.services .container {
+    position: relative;
+    z-index: 2;
 }
 
 .services h2 {
@@ -286,6 +529,26 @@ img {
     text-align: center;
     box-shadow: var(--shadow);
     transition: var(--transition);
+    position: relative;
+    overflow: hidden;
+}
+
+.service-card::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: -100%;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(90deg, 
+        transparent, 
+        rgba(255, 255, 255, 0.4), 
+        transparent);
+    transition: left 0.5s;
+}
+
+.service-card:hover::before {
+    left: 100%;
 }
 
 .service-card:hover {
@@ -308,7 +571,13 @@ img {
         0 2px 4px rgba(255, 255, 255, 0.8) inset;
     transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
     position: relative;
+    animation: float 4s ease-in-out infinite;
 }
+
+.service-icon:nth-child(1) { animation-delay: 0s; }
+.service-icon:nth-child(2) { animation-delay: 1s; }
+.service-icon:nth-child(3) { animation-delay: 2s; }
+.service-icon:nth-child(4) { animation-delay: 3s; }
 
 .service-card:hover .service-icon {
     transform: translateY(-8px) scale(1.05);
@@ -352,10 +621,31 @@ img {
     box-shadow: 0 6px 16px rgba(42, 111, 151, 0.3);
 }
 
+.service-card .btn + .btn {
+    margin-top: 0.5rem;
+}
+
 /* Testimonials Section */
 .testimonials {
     padding: 4rem 0;
-    background-color: var(--light-gray);
+    background: linear-gradient(135deg, var(--light-gray) 0%, #f0f8ff 50%, var(--light-gray) 100%);
+    background-size: 200% 200%;
+    animation: gradientShift 10s ease infinite;
+    position: relative;
+    overflow: hidden;
+}
+
+.testimonials::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100"><circle cx="50" cy="50" r="2" fill="%23d0e8f2" opacity="0.3"/></svg>') repeat;
+    background-size: 50px 50px;
+    animation: float 8s ease-in-out infinite;
+    pointer-events: none;
 }
 
 .testimonials h2 {
@@ -458,6 +748,24 @@ img {
 /* Security Section */
 .security {
     padding: 4rem 0;
+    background: linear-gradient(45deg, var(--white) 0%, #f8f9fa 50%, var(--white) 100%);
+    background-size: 300% 300%;
+    animation: gradientShift 12s ease infinite;
+    position: relative;
+    overflow: hidden;
+}
+
+.security::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: radial-gradient(circle at 20% 80%, rgba(42, 111, 151, 0.05) 0%, transparent 50%),
+                radial-gradient(circle at 80% 20%, rgba(58, 134, 255, 0.05) 0%, transparent 50%);
+    animation: pulse 6s ease-in-out infinite;
+    pointer-events: none;
 }
 
 .security .container {
@@ -540,6 +848,14 @@ img {
     text-shadow: 0 2px 8px rgba(0, 0, 0, 0.3);
 }
 
+.cta-banner-buttons {
+    display: flex;
+    gap: 1rem;
+    justify-content: center;
+    flex-wrap: wrap;
+    margin-top: 1rem;
+}
+
 /* Emergency CTA */
 .emergency-cta {
     background: linear-gradient(135deg, var(--secondary-color), var(--accent-color));
@@ -553,6 +869,7 @@ img {
         inset 0 2px 4px rgba(255, 255, 255, 0.1);
     position: relative;
     overflow: hidden;
+    animation: pulse 4s ease-in-out infinite;
 }
 
 .emergency-cta::before {
@@ -583,6 +900,14 @@ img {
     opacity: 0.95;
 }
 
+.emergency-buttons {
+    display: flex;
+    gap: 1rem;
+    justify-content: center;
+    flex-wrap: wrap;
+    margin-top: 1rem;
+}
+
 .emergency-cta .btn {
     background: white;
     color: var(--secondary-color);
@@ -604,6 +929,28 @@ img {
     background-color: var(--dark-gray);
     color: var(--white);
     padding: 3rem 0 0;
+    position: relative;
+    overflow: hidden;
+}
+
+.footer::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: 
+        url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100"><defs><pattern id="stars" width="60" height="60" patternUnits="userSpaceOnUse"><circle cx="30" cy="30" r="1" fill="%23ffffff" opacity="0.1"/><circle cx="15" cy="15" r="0.5" fill="%23ffffff" opacity="0.08"/><circle cx="45" cy="45" r="0.8" fill="%23ffffff" opacity="0.12"/></pattern></defs><rect width="100" height="100" fill="url(%23stars)"/></svg>') repeat;
+    background-size: 120px 120px;
+    animation: float 30s ease-in-out infinite;
+    pointer-events: none;
+    z-index: 1;
+}
+
+.footer .container {
+    position: relative;
+    z-index: 2;
 }
 
 
@@ -665,6 +1012,7 @@ address p {
     transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
     z-index: 1000;
     border: 2px solid rgba(255, 255, 255, 0.2);
+    animation: float 3s ease-in-out infinite;
 }
 
 .floating-call-btn:hover {
@@ -705,6 +1053,7 @@ address p {
     border: 1px solid rgba(255, 255, 255, 0.2);
     opacity: 0;
     visibility: hidden;
+    animation: pulse 2s ease-in-out infinite;
 }
 
 .scroll-to-top.visible {
@@ -732,6 +1081,28 @@ address p {
     padding: 6rem 0 3rem;
     margin-top: 80px;
     text-align: center;
+    position: relative;
+    overflow: hidden;
+}
+
+.request-hero::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: 
+        url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100"><defs><pattern id="squares" width="30" height="30" patternUnits="userSpaceOnUse"><rect x="10" y="10" width="10" height="10" fill="none" stroke="%232a6f97" stroke-width="1" opacity="0.2"/></pattern></defs><rect width="100" height="100" fill="url(%23squares)"/></svg>') repeat;
+    background-size: 60px 60px;
+    animation: float 14s ease-in-out infinite;
+    pointer-events: none;
+    z-index: 1;
+}
+
+.request-hero .container {
+    position: relative;
+    z-index: 2;
 }
 
 .request-hero h1 {
@@ -920,6 +1291,28 @@ address p {
     padding: 6rem 0 3rem;
     margin-top: 80px;
     text-align: center;
+    position: relative;
+    overflow: hidden;
+}
+
+.about-hero::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: 
+        url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100"><defs><pattern id="triangles" width="50" height="50" patternUnits="userSpaceOnUse"><polygon points="25,10 40,40 10,40" fill="none" stroke="%232a6f97" stroke-width="1" opacity="0.15"/></pattern></defs><rect width="100" height="100" fill="url(%23triangles)"/></svg>') repeat;
+    background-size: 100px 100px;
+    animation: float 17s ease-in-out infinite;
+    pointer-events: none;
+    z-index: 1;
+}
+
+.about-hero .container {
+    position: relative;
+    z-index: 2;
 }
 
 .mission-section {
@@ -975,6 +1368,28 @@ address p {
 
 .process-section {
     padding: 3rem 0;
+    position: relative;
+    overflow: hidden;
+}
+
+.process-section::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: 
+        url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100"><defs><pattern id="waves" width="50" height="50" patternUnits="userSpaceOnUse"><path d="M0,25 Q12.5,15 25,25 T50,25" fill="none" stroke="%232a6f97" stroke-width="1" opacity="0.2"/></pattern></defs><rect width="100" height="100" fill="url(%23waves)"/></svg>') repeat;
+    background-size: 100px 100px;
+    animation: float 22s ease-in-out infinite;
+    pointer-events: none;
+    z-index: 1;
+}
+
+.process-section .container {
+    position: relative;
+    z-index: 2;
 }
 
 .process-steps {
@@ -1016,7 +1431,12 @@ address p {
         0 2px 4px rgba(255, 255, 255, 0.3) inset;
     transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
     position: relative;
+    animation: pulse 3s ease-in-out infinite;
 }
+
+.step-number:nth-child(1) { animation-delay: 0s; }
+.step-number:nth-child(2) { animation-delay: 1s; }
+.step-number:nth-child(3) { animation-delay: 2s; }
 
 .process-step:hover .step-number {
     transform: translateY(-5px) scale(1.1);
@@ -1078,6 +1498,28 @@ address p {
     padding: 6rem 0 3rem;
     margin-top: 80px;
     text-align: center;
+    position: relative;
+    overflow: hidden;
+}
+
+.contact-hero::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: 
+        url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100"><defs><pattern id="circles" width="40" height="40" patternUnits="userSpaceOnUse"><circle cx="20" cy="20" r="3" fill="%232a6f97" opacity="0.1"/></pattern></defs><rect width="100" height="100" fill="url(%23circles)"/></svg>') repeat;
+    background-size: 80px 80px;
+    animation: float 16s ease-in-out infinite;
+    pointer-events: none;
+    z-index: 1;
+}
+
+.contact-hero .container {
+    position: relative;
+    z-index: 2;
 }
 
 .contact-section {
@@ -1255,11 +1697,55 @@ address p {
 .founder-section {
     padding: 4rem 0;
     background: linear-gradient(135deg, rgba(208, 232, 242, 0.3), rgba(255, 255, 255, 0.8));
+    position: relative;
+    overflow: hidden;
+}
+
+.founder-section::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: 
+        url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100"><defs><pattern id="dots" width="30" height="30" patternUnits="userSpaceOnUse"><circle cx="15" cy="15" r="1" fill="%232a6f97" opacity="0.1"/></pattern></defs><rect width="100" height="100" fill="url(%23dots)"/></svg>') repeat;
+    background-size: 60px 60px;
+    animation: float 25s ease-in-out infinite;
+    pointer-events: none;
+    z-index: 1;
+}
+
+.founder-section .container {
+    position: relative;
+    z-index: 2;
 }
 
 .values-section {
     padding: 4rem 0;
     background: var(--white);
+    position: relative;
+    overflow: hidden;
+}
+
+.values-section::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: 
+        url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100"><defs><pattern id="hexagons" width="40" height="40" patternUnits="userSpaceOnUse"><polygon points="20,0 30,10 30,30 20,40 10,30 10,10" fill="none" stroke="%23d0e8f2" stroke-width="1" opacity="0.3"/></pattern></defs><rect width="100" height="100" fill="url(%23hexagons)"/></svg>') repeat;
+    background-size: 80px 80px;
+    animation: float 18s ease-in-out infinite;
+    pointer-events: none;
+    z-index: 1;
+}
+
+.values-section .container {
+    position: relative;
+    z-index: 2;
 }
 
 .values-grid {
@@ -1277,7 +1763,12 @@ address p {
     text-align: center;
     transition: all 0.3s ease;
     border: 1px solid rgba(42, 111, 151, 0.1);
+    animation: float 4s ease-in-out infinite;
 }
+
+.value-card:nth-child(1) { animation-delay: 0s; }
+.value-card:nth-child(2) { animation-delay: 1s; }
+.value-card:nth-child(3) { animation-delay: 2s; }
 
 .value-card:hover {
     transform: translateY(-5px);
@@ -1381,11 +1872,19 @@ address p {
     text-align: center;
 }
 
+.cta-buttons .btn + .btn {
+    margin-left: 0.5rem;
+}
+
 /* Responsive founder profile */
 @media (max-width: 1200px) {
     .founder-profile .founder-photo-container {
         width: 260px;
         height: 260px;
+    }
+    
+    .cta-buttons .btn + .btn {
+        margin-left: 0.5rem;
     }
 }
 
@@ -1404,9 +1903,18 @@ address p {
         justify-content: center;
     }
     
+    .cta-buttons .btn + .btn {
+        margin-left: 0.5rem;
+    }
+    
     .founder-profile .founder-photo-container {
         width: 240px;
         height: 240px;
+    }
+    
+    .cta-buttons .btn + .btn {
+        margin-left: 0;
+        margin-top: 0.5rem;
     }
 }
 
@@ -1424,8 +1932,18 @@ address p {
         height: 220px;
     }
     
+    .cta-buttons .btn + .btn {
+        margin-left: 0;
+        margin-top: 0.5rem;
+    }
+    
     .cta-buttons {
         flex-direction: column;
+    }
+    
+    .cta-buttons .btn + .btn {
+        margin-left: 0;
+        margin-top: 0.5rem;
     }
 }
 
@@ -1441,6 +1959,11 @@ address p {
     .founder-profile .founder-photo-container {
         width: 200px;
         height: 200px;
+    }
+    
+    .cta-buttons .btn + .btn {
+        margin-left: 0;
+        margin-top: 0.5rem;
     }
 }
 
@@ -1529,7 +2052,11 @@ address p {
     
     .hero {
         padding: 6rem 0 2rem;
-        background-position: center right;
+        min-height: 80vh;
+    }
+    
+    .hero-video-background video {
+        object-position: center center;
     }
     
     .hero h1 {
@@ -1542,6 +2069,10 @@ address p {
     
     .hero-content {
         padding: 2rem;
+    }
+    
+    .pricing-link {
+        font-size: 0.9rem;
     }
     
     /* Improve spacing and alignment */
@@ -1576,8 +2107,12 @@ address p {
     }
     
     .hero {
-        background-position: center;
         padding: 4rem 0 2rem;
+        min-height: 70vh;
+    }
+    
+    .hero-video-background video {
+        object-position: center center;
     }
     
     .hero h1 {
@@ -1590,6 +2125,10 @@ address p {
     
     .hero-content {
         padding: 1.5rem;
+    }
+    
+    .pricing-link {
+        font-size: 0.85rem;
     }
     
     .testimonial blockquote {
@@ -1649,6 +2188,10 @@ address p {
     box-shadow: 0 8px 25px rgba(42, 111, 151, 0.3);
 }
 
+.security-cta .btn + .btn {
+    margin-left: 0.5rem;
+}
+
 @media (max-width: 768px) {
     .security-cta {
         flex-direction: column;
@@ -1656,6 +2199,11 @@ address p {
     
     .security-cta .btn {
         width: 100%;
+        margin: 0.5rem 0;
+    }
+    
+    .security-cta .btn + .btn {
+        margin-left: 0;
     }
 }
 
@@ -1665,6 +2213,21 @@ address p {
     padding: 5rem 0;
     position: relative;
     overflow: hidden;
+}
+
+.about-preview::after {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: 
+        url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100"><circle cx="25" cy="25" r="3" fill="%232a6f97" opacity="0.1"/><circle cx="75" cy="75" r="2" fill="%233a86ff" opacity="0.1"/><circle cx="50" cy="10" r="1.5" fill="%23d0e8f2" opacity="0.2"/><circle cx="10" cy="60" r="2.5" fill="%232a6f97" opacity="0.08"/><circle cx="90" cy="40" r="1" fill="%233a86ff" opacity="0.15"/></svg>') repeat;
+    background-size: 100px 100px;
+    animation: float 20s ease-in-out infinite;
+    pointer-events: none;
+    z-index: 1;
 }
 
 .about-preview::before {
@@ -1720,7 +2283,12 @@ address p {
     border-radius: 12px;
     box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
     transition: all 0.3s ease;
+    animation: slideInFromLeft 0.6s ease-out;
 }
+
+.credential-item:nth-child(1) { animation-delay: 0.1s; }
+.credential-item:nth-child(2) { animation-delay: 0.2s; }
+.credential-item:nth-child(3) { animation-delay: 0.3s; }
 
 .credential-item:hover {
     transform: translateX(5px);
@@ -1779,6 +2347,10 @@ address p {
     box-shadow: 0 8px 25px rgba(42, 111, 151, 0.35);
 }
 
+.about-preview .btn + .btn {
+    margin-left: 0.5rem;
+}
+
 /* Responsive about preview */
 @media (max-width: 1200px) {
     .about-preview .container {
@@ -1788,6 +2360,10 @@ address p {
     .founder-photo-container {
         width: 350px;
         height: 350px;
+    }
+    
+    .about-preview .btn + .btn {
+        margin-left: 0.5rem;
     }
 }
 
@@ -1818,6 +2394,11 @@ address p {
     .founder-photo-container {
         width: 320px;
         height: 320px;
+    }
+    
+    .about-preview .btn + .btn {
+        margin-left: 0;
+        margin-top: 0.5rem;
     }
 }
 
@@ -1850,6 +2431,11 @@ address p {
         width: 280px;
         height: 280px;
     }
+    
+    .about-preview .btn + .btn {
+        margin-left: 0;
+        margin-top: 0.5rem;
+    }
 }
 
 @media (max-width: 576px) {
@@ -1878,6 +2464,11 @@ address p {
         padding: 0.5rem 0.7rem;
         font-size: 0.85rem;
     }
+    
+    .about-preview .btn + .btn {
+        margin-left: 0;
+        margin-top: 0.5rem;
+    }
 }
 
 
@@ -1898,6 +2489,7 @@ address p {
     margin: 0 auto;
     position: relative;
     background: linear-gradient(145deg, #e6f3ff, #d0e8f2);
+    animation: float 5s ease-in-out infinite;
 }
 
 .founder-photo,
@@ -1919,4 +2511,508 @@ address p {
 
 .founder-photo-container:hover img {
     transform: scale(1.1);
+}
+
+/* Pricing Page Styles */
+.pricing-hero {
+    padding: 8rem 0 4rem;
+    margin-top: 80px;
+    position: relative;
+    overflow: hidden;
+    min-height: 100vh;
+    display: flex;
+    align-items: center;
+}
+
+.pricing-hero::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: linear-gradient(45deg, 
+        rgba(42, 111, 151, 0.4) 0%, 
+        rgba(58, 134, 255, 0.4) 25%, 
+        rgba(208, 232, 242, 0.4) 50%, 
+        rgba(42, 111, 151, 0.4) 75%, 
+        rgba(58, 134, 255, 0.4) 100%);
+    background-size: 400% 400%;
+    animation: gradientShift 8s ease infinite;
+    z-index: 2;
+}
+
+.pricing-hero .container {
+    position: relative;
+    z-index: 3;
+}
+
+.pricing-hero-content {
+    text-align: center;
+    max-width: 800px;
+    margin: 0 auto;
+    background: transparent;
+    padding: 2rem;
+    border-radius: var(--border-radius);
+    animation: fadeInUp 1s ease-out;
+}
+
+.pricing-hero h1 {
+    color: var(--white);
+    font-size: 3.5rem;
+    margin-bottom: 1rem;
+    text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
+    animation: fadeInUp 1s ease-out 0.2s both;
+}
+
+.pricing-hero .subheadline {
+    color: var(--white);
+    font-size: 1.3rem;
+    margin-bottom: 2rem;
+    text-shadow: 1px 1px 3px rgba(0, 0, 0, 0.5);
+    animation: fadeInUp 1s ease-out 0.4s both;
+}
+
+.pricing-section {
+    padding: 5rem 0;
+    position: relative;
+    overflow: hidden;
+}
+
+.pricing-section::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: 
+        radial-gradient(circle at 20% 80%, rgba(58, 134, 255, 0.1) 0%, transparent 50%),
+        radial-gradient(circle at 80% 20%, rgba(208, 232, 242, 0.1) 0%, transparent 50%),
+        radial-gradient(circle at 40% 40%, rgba(42, 111, 151, 0.05) 0%, transparent 50%);
+    z-index: -1;
+}
+
+.pricing-intro {
+    text-align: center;
+    max-width: 800px;
+    margin: 0 auto 4rem;
+}
+
+.pricing-intro h2 {
+    font-size: 2.5rem;
+    margin-bottom: 1rem;
+    color: var(--secondary-color);
+}
+
+.pricing-intro p {
+    font-size: 1.1rem;
+    color: var(--dark-gray);
+    line-height: 1.6;
+}
+
+.pricing-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+    gap: 2rem;
+    margin-bottom: 4rem;
+}
+
+.pricing-card {
+    background: var(--white);
+    border-radius: var(--border-radius);
+    box-shadow: var(--shadow);
+    overflow: hidden;
+    transition: var(--transition);
+    position: relative;
+    animation: fadeInUp 0.8s ease-out;
+}
+
+.pricing-card.featured {
+    transform: scale(1.05);
+    box-shadow: 0 8px 25px rgba(58, 134, 255, 0.2);
+    border: 2px solid var(--accent-color);
+}
+
+.pricing-card:hover {
+    transform: translateY(-10px);
+    box-shadow: 0 12px 30px rgba(0, 0, 0, 0.15);
+}
+
+.pricing-header {
+    background: linear-gradient(135deg, var(--primary-color), var(--accent-color));
+    padding: 2rem;
+    text-align: center;
+    position: relative;
+    overflow: hidden;
+}
+
+.pricing-header::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: -100%;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.2), transparent);
+    transition: var(--transition);
+}
+
+.pricing-card:hover .pricing-header::before {
+    left: 100%;
+}
+
+.pricing-header .service-icon {
+    width: 80px;
+    height: 80px;
+    margin: 0 auto 1rem;
+    background: var(--white);
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+    animation: float 4s ease-in-out infinite;
+}
+
+.pricing-header .service-icon img {
+    width: 40px;
+    height: 40px;
+    object-fit: contain;
+}
+
+.pricing-header h3 {
+    color: var(--secondary-color);
+    font-size: 1.4rem;
+    margin-bottom: 1rem;
+    font-weight: 600;
+}
+
+.price {
+    font-size: 2.5rem;
+    font-weight: 700;
+    color: var(--secondary-color);
+    margin-bottom: 0.5rem;
+}
+
+.price-type {
+    font-size: 0.9rem;
+    color: var(--dark-gray);
+    font-weight: 500;
+}
+
+.pricing-content {
+    padding: 2rem;
+}
+
+.pricing-content p {
+    color: var(--dark-gray);
+    margin-bottom: 1.5rem;
+    line-height: 1.6;
+}
+
+.service-features {
+    list-style: none;
+    padding: 0;
+    margin-bottom: 2rem;
+}
+
+.service-features li {
+    padding: 0.5rem 0;
+    color: var(--dark-gray);
+    position: relative;
+    padding-left: 1.5rem;
+}
+
+.service-features li::before {
+    content: '✓';
+    position: absolute;
+    left: 0;
+    color: var(--accent-color);
+    font-weight: bold;
+    font-size: 1.1rem;
+}
+
+.pricing-content .btn {
+    width: 100%;
+    text-align: center;
+    padding: 1rem 2rem;
+    font-size: 1.1rem;
+    font-weight: 600;
+}
+
+.addon-section {
+    margin-top: 4rem;
+    text-align: center;
+}
+
+.addon-section h3 {
+    font-size: 2rem;
+    color: var(--secondary-color);
+    margin-bottom: 2rem;
+}
+
+.addon-card {
+    background: var(--white);
+    border-radius: var(--border-radius);
+    box-shadow: var(--shadow);
+    padding: 2rem;
+    max-width: 600px;
+    margin: 0 auto;
+    border: 2px solid var(--primary-color);
+    animation: fadeInUp 0.8s ease-out 0.3s both;
+}
+
+.addon-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 1.5rem;
+    padding-bottom: 1rem;
+    border-bottom: 2px solid var(--primary-color);
+}
+
+.addon-header .service-icon {
+    width: 60px;
+    height: 60px;
+    background: var(--primary-color);
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    animation: float 4s ease-in-out infinite;
+}
+
+.addon-header .service-icon img {
+    width: 30px;
+    height: 30px;
+    object-fit: contain;
+}
+
+.addon-header h4 {
+    color: var(--secondary-color);
+    font-size: 1.3rem;
+    margin: 0;
+    flex: 1;
+    margin-left: 1rem;
+}
+
+.addon-header .price {
+    font-size: 1.8rem;
+    color: var(--accent-color);
+    font-weight: 700;
+}
+
+.addon-header .price-type {
+    font-size: 0.8rem;
+    color: var(--dark-gray);
+    display: block;
+    margin-top: 0.2rem;
+}
+
+.addon-content p {
+    color: var(--dark-gray);
+    margin-bottom: 1rem;
+    line-height: 1.6;
+}
+
+.pricing-cta {
+    text-align: center;
+    margin-top: 4rem;
+    padding: 3rem;
+    background: linear-gradient(135deg, var(--primary-color), var(--accent-color));
+    border-radius: var(--border-radius);
+    box-shadow: var(--shadow);
+    animation: fadeInUp 0.8s ease-out 0.5s both;
+}
+
+.pricing-cta h3 {
+    font-size: 2rem;
+    color: var(--secondary-color);
+    margin-bottom: 1rem;
+}
+
+.pricing-cta p {
+    font-size: 1.1rem;
+    color: var(--dark-gray);
+    margin-bottom: 2rem;
+}
+
+.cta-buttons {
+    display: flex;
+    gap: 1rem;
+    justify-content: center;
+    flex-wrap: wrap;
+}
+
+.cta-buttons .btn {
+    min-width: 200px;
+    padding: 1rem 2rem;
+    font-size: 1.1rem;
+    font-weight: 600;
+}
+
+/* Responsive Design for Pricing */
+@media (max-width: 1200px) {
+    .pricing-grid {
+        grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+        gap: 1.5rem;
+    }
+}
+
+@media (max-width: 992px) {
+    .pricing-hero h1 {
+        font-size: 3rem;
+    }
+    
+    .pricing-hero .subheadline {
+        font-size: 1.2rem;
+    }
+    
+    .pricing-intro h2 {
+        font-size: 2.2rem;
+    }
+    
+    .pricing-grid {
+        grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    }
+    
+    .pricing-card.featured {
+        transform: none;
+    }
+}
+
+@media (max-width: 768px) {
+    .pricing-hero {
+        padding: 6rem 0 3rem;
+        min-height: 80vh;
+    }
+    
+    .pricing-hero h1 {
+        font-size: 2.5rem;
+    }
+    
+    .pricing-hero .subheadline {
+        font-size: 1.1rem;
+    }
+    
+    .pricing-hero .hero-video-background video {
+        object-position: center center;
+    }
+    
+    .pricing-intro h2 {
+        font-size: 2rem;
+    }
+    
+    .pricing-grid {
+        grid-template-columns: 1fr;
+        gap: 1.5rem;
+    }
+    
+    .pricing-header {
+        padding: 1.5rem;
+    }
+    
+    .pricing-content {
+        padding: 1.5rem;
+    }
+    
+    .price {
+        font-size: 2rem;
+    }
+    
+    .addon-header {
+        flex-direction: column;
+        text-align: center;
+        gap: 1rem;
+    }
+    
+    .addon-header h4 {
+        margin-left: 0;
+    }
+    
+    .cta-buttons {
+        flex-direction: column;
+        align-items: center;
+    }
+    
+    .cta-buttons .btn {
+        width: 100%;
+        max-width: 300px;
+    }
+}
+
+@media (max-width: 576px) {
+    .pricing-hero {
+        min-height: 70vh;
+    }
+    
+    .pricing-hero h1 {
+        font-size: 2rem;
+    }
+    
+    .pricing-hero .subheadline {
+        font-size: 1rem;
+    }
+    
+    .pricing-hero .hero-video-background video {
+        object-position: center center;
+    }
+    
+    .pricing-intro h2 {
+        font-size: 1.8rem;
+    }
+    
+    .pricing-intro p {
+        font-size: 1rem;
+    }
+    
+    .pricing-header .service-icon {
+        width: 60px;
+        height: 60px;
+    }
+    
+    .pricing-header .service-icon img {
+        width: 30px;
+        height: 30px;
+    }
+    
+    .pricing-header h3 {
+        font-size: 1.2rem;
+    }
+    
+    .price {
+        font-size: 1.8rem;
+    }
+    
+    .pricing-cta {
+        padding: 2rem 1rem;
+    }
+    
+    .pricing-cta h3 {
+        font-size: 1.6rem;
+    }
+}
+
+/* Emergency buttons responsive */
+@media (max-width: 768px) {
+    .emergency-buttons {
+        flex-direction: column;
+        align-items: center;
+    }
+    
+    .emergency-buttons .btn {
+        width: 100%;
+        max-width: 300px;
+    }
+    
+    .cta-banner-buttons {
+        flex-direction: column;
+        align-items: center;
+    }
+    
+    .cta-banner-buttons .btn {
+        width: 100%;
+        max-width: 300px;
+    }
 }

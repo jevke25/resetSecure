@@ -3,13 +3,53 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>About Us | ResetSecureLLC</title>
+    <title>About Us - ResetSecureLLC | Meet Colton Keene</title>
+    
+    <!-- SEO Meta Tags -->
+    <meta name="description" content="Meet Colton Keene, founder of ResetSecureLLC. Local tech expert serving seniors in The Villages, Florida. B.A. Sociology, MBA in progress, CompTIA certified. Learn about our mission to provide trusted tech support.">
+    <meta name="keywords" content="Colton Keene, tech expert, The Villages, Florida, computer help, senior tech support, local business, CompTIA certified">
+    <meta name="author" content="Colton Keene - ResetSecureLLC">
+    <meta name="robots" content="index, follow">
+    
+    <!-- Open Graph Meta Tags -->
+    <meta property="og:title" content="About Us - ResetSecureLLC | Meet Colton Keene">
+    <meta property="og:description" content="Meet Colton Keene, founder of ResetSecureLLC. Local tech expert serving seniors in The Villages, Florida. B.A. Sociology, MBA in progress, CompTIA certified.">
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="https://resetsecurellc.com/about">
+    <meta property="og:image" content="https://resetsecurellc.com/assets/images/colton-keene.jpg">
+    <meta property="og:image:width" content="1200">
+    <meta property="og:image:height" content="630">
+    <meta property="og:site_name" content="ResetSecureLLC">
+    
+    <!-- Twitter Card Meta Tags -->
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="About Us - ResetSecureLLC | Meet Colton Keene">
+    <meta name="twitter:description" content="Meet Colton Keene, founder of ResetSecureLLC. Local tech expert serving seniors in The Villages, Florida.">
+    <meta name="twitter:image" content="https://resetsecurellc.com/assets/images/colton-keene.jpg">
+    
+    <!-- Favicon -->
+    <link rel="icon" type="image/png" sizes="32x32" href="assets/images/logo.png">
+    <link rel="icon" type="image/png" sizes="16x16" href="assets/images/logo.png">
+    <link rel="apple-touch-icon" href="assets/images/logo.png">
+    
+    <!-- Canonical URL -->
+    <link rel="canonical" href="https://resetsecurellc.com/about">
+    
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Fjalla+One&family=Nunito:wght@400;600;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="css/style.css">
 </head>
 <body>
+    <div class="animated-bg">
+        <div class="floating-shapes">
+            <div class="shape"></div>
+            <div class="shape"></div>
+            <div class="shape"></div>
+            <div class="shape"></div>
+            <div class="shape"></div>
+        </div>
+    </div>
     <header class="header">
         <div class="container">
             <a href="index.html" class="logo">
@@ -24,6 +64,7 @@
                 <ul class="nav-menu">
                     <li><a href="index.html">Home</a></li>
                     <li><a href="request.html">Request Help</a></li>
+                    <li><a href="pricing.html">Pricing</a></li>
                     <li><a href="about.html">About Us</a></li>
                     <li><a href="contact.html">Contact</a></li>
                 </ul>
@@ -64,7 +105,7 @@
                         </div>
                         
                         <div class="cta-buttons">
-                            <a href="request.html" class="btn btn-primary">Request Help</a>
+                            <a href="request.html" class="btn btn-secondary">Request Help</a>
                             <a href="tel:+13523523526" class="btn btn-secondary">Call Now</a>
                         </div>
                     </div>
@@ -126,7 +167,9 @@
         <section class="cta-banner">
             <div class="container">
                 <h3>Ready for stress-free tech support?</h3>
-                <a href="request.html" class="btn btn-primary">Request Help Today</a>
+                <div class="cta-banner-buttons">
+                    <a href="request.html" class="btn btn-secondary">Request Help Today</a>
+                </div>
             </div>
         </section>
     </main>
@@ -137,6 +180,7 @@
                 <div class="footer-column">
                     <h4>Services</h4>
                     <ul>
+                        <li><a href="pricing.html">Pricing</a></li>
                         <li><a href="#">Tech Support</a></li>
                         <li><a href="#">Password Help</a></li>
                         <li><a href="#">Virus Removal</a></li>
@@ -147,6 +191,7 @@
                     <h4>Company</h4>
                     <ul>
                         <li><a href="about.html">About Us</a></li>
+                        <li><a href="pricing.html">Pricing</a></li>
                         <li><a href="contact.html">Contact</a></li>
                         <li><a href="#">Privacy Policy</a></li>
                     </ul>
@@ -175,5 +220,37 @@
     <button class="scroll-to-top" aria-label="Scroll to top"></button>
 
     <script src="js/script.js"></script>
+    
+    <!-- Structured Data for SEO -->
+    <script type="application/ld+json">
+    {
+        "@context": "https://schema.org",
+        "@type": "AboutPage",
+        "name": "About ResetSecureLLC",
+        "description": "Meet Colton Keene, founder of ResetSecureLLC. Local tech expert serving seniors in The Villages, Florida.",
+        "url": "https://resetsecurellc.com/about",
+        "mainEntity": {
+            "@type": "Person",
+            "name": "Colton Keene",
+            "jobTitle": "Founder",
+            "worksFor": {
+                "@type": "Organization",
+                "name": "ResetSecureLLC"
+            },
+            "description": "B.A. Sociology, University of Florida. MBA (In Progress), Boston University. CompTIA A+ and Network+ Certified.",
+            "address": {
+                "@type": "PostalAddress",
+                "addressLocality": "The Villages",
+                "addressRegion": "Florida",
+                "addressCountry": "US"
+            },
+            "knowsAbout": ["Tech Support", "Cybersecurity", "Computer Repair", "Password Recovery", "Scam Protection"],
+            "alumniOf": {
+                "@type": "CollegeOrUniversity",
+                "name": "University of Florida"
+            }
+        }
+    }
+    </script>
 </body>
 </html>

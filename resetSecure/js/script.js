@@ -1,4 +1,20 @@
 document.addEventListener('DOMContentLoaded', function() {
+    // Hero video functionality
+    const heroVideo = document.querySelector('.hero-video-background video');
+    if (heroVideo) {
+        heroVideo.addEventListener('loadeddata', function() {
+            console.log('Hero video loaded successfully');
+        });
+        
+        heroVideo.addEventListener('error', function() {
+            console.log('Hero video failed to load, using fallback');
+            const videoContainer = document.querySelector('.hero-video-background');
+            if (videoContainer) {
+                videoContainer.style.display = 'none';
+            }
+        });
+    }
+    
     // Mobile menu toggle
     const navToggle = document.querySelector('.nav-toggle');
     const navMenu = document.querySelector('.nav-menu');
